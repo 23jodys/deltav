@@ -1,9 +1,17 @@
 import logging
 logger = logging.getLogger(__name__)
 class Piece:
+    def __init__(self, shiptype, startinglocation):
+        self.type = shiptype
+        
+class Player:
     def __init__(self, name):
-        self.name = name  
-
+        self.name = name
+        self.pieces = []
+        
+    def AddPiece(self, piece):
+        self.pieces.append(piece)
+        
 class Space:
 
     def __init__(self, levelname, spacenum):
@@ -81,10 +89,13 @@ class Board:
         CAPTURE, alpha, 1, alpha, 3, alpha, 5
         """
         self.board = { "levels": {},
-                       "spaces": []} 
+                       "spaces": [],
+                       "pieces": [],
+                       "players": []} 
         parsed = { "levels": {},
                    "move": [],
-                   "capture": [] }
+                   "capture": [],
+                   "piece": [] }
 
         els = []
         linenum = 1
@@ -120,6 +131,14 @@ class Board:
                                             "to_space": els[6].strip() } )
 
                 logger.debug("UNKNOWN")
+            elif els[0] == "PIECE":
+                logger.debug("PIECE -- storing %s, type %s in location %s" % (els[1].strip(), 
+                                                                              els[2].strip(), 
+                                                                              els[3].strip()))
+                parsed["piece"].append( {"player": els[1].strip(),
+                                         "type": els[2].strip(),
+                                         "location": els[3].strip() } )
+                                                                              
 
             linenum += 1
 
@@ -161,7 +180,15 @@ class Board:
                                                                          capturedict["from_space"]))
 
         for space in self.board["spaces"]:
-            logger.debug(space)                                                               
+            logger.debug(space)
+
+        # Create all of the players
+        for player in ["player1", "player2"]:
+            self.board["players"].append(Player(player))
+
+        # Create all of the pieces
+        for piece in parsed["piece"]:
+
             
     def GetSpace(self, levelname, spacenum):
         """
