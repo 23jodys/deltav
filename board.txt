@@ -1,0 +1,69 @@
+LEVEL, alpha, 8
+LEVEL, beta, 8
+LEVEL, gamma, 8
+LEVEL, delta, 8
+LEVEL, outerspace, 1
+LEVEL, commandbay, 3
+LEVEL, supplybay, 3
+MOVE, commandbay, 1, outerspace, 1
+MOVE, commandbay, 2, outerspace, 1
+MOVE, commandbay, 3, outerspace, 1
+MOVE, supplybay, 1, outerspace, 1
+MOVE, supplybay, 2, outerspace, 1
+MOVE, supplybay, 3, outerspace, 1
+MOVE, alpha, 1, alpha, 3
+MOVE, alpha, 1, beta, 1
+MOVE, alpha, 1, beta, 3
+MOVE, alpha, 1, outerspace, 1
+MOVE, alpha, 2, alpha, 3
+MOVE, alpha, 2, alpha, 4
+MOVE, alpha, 2, beta, 1
+MOVE, alpha, 2, beta, 2
+MOVE, alpha, 2, beta, 4
+MOVE, alpha, 2, outerspace, 1
+MOVE, alpha, 3, alpha, 1
+MOVE, alpha, 3, alpha, 5
+MOVE, alpha, 3, alpha, 6
+MOVE, alpha, 3, alpha, 2
+MOVE, alpha, 3, beta, 1
+MOVE, alpha, 3, beta, 3
+MOVE, alpha, 3, beta, 4
+MOVE, alpha, 3, beta, 5
+MOVE, alpha, 4, alpha, 2
+MOVE, alpha, 4, alpha, 5
+MOVE, alpha, 4, beta, 2
+MOVE, alpha, 4, beta, 4
+MOVE, alpha, 4, beta, 6
+MOVE, alpha, 5, alpha, 3
+MOVE, alpha, 5, alpha, 7
+MOVE, alpha, 5, beta, 3
+MOVE, alpha, 5, beta, 5
+MOVE, alpha, 5, beta, 7
+MOVE, alpha, 6, alpha, 3
+MOVE, alpha, 6, alpha, 4
+MOVE, alpha, 6, alpha, 7
+MOVE, alpha, 6, alpha, 8
+MOVE, alpha, 6, beta, 4
+MOVE, alpha, 6, beta, 5
+MOVE, alpha, 6, beta, 6
+MOVE, alpha, 6, beta, 8
+MOVE, alpha, 7, alpha, 5
+MOVE, alpha, 7, alpha, 6
+MOVE, alpha, 7, beta, 5
+MOVE, alpha, 7, beta, 7
+MOVE, alpha, 7, beta, 8
+MOVE, alpha, 8, alpha, 5
+MOVE, alpha, 8, beta, 6
+MOVE, alpha, 8, beta, 8
+MOVE, outerspace, 1, alpha, 1
+MOVE, outerspace, 1, alpha, 2
+MOVE, outerspace, 1, alpha, 4
+MOVE, outerspace, 1, alpha, 6
+MOVE, outerspace, 1, alpha, 7
+MOVE, outerspace, 1, alpha, 8
+CAPTURE, alpha, 1, alpha, 3, alpha, 5
+CAPTURE, alpha, 1, beta, 1, gamma, 2
+CAPTURE, alpha, 1, beta, 3, gamma, 5
+CAPTURE, alpha, 2, beta, 1, gamma, 1
+CAPTURE, alpha, 2, beta, 4, gamma, 6
+
