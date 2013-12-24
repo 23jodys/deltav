@@ -22,7 +22,7 @@ from nose.tools import nottest
 def test_board():
     filename = "board.txt"
     newboard = board.Board(open(filename))
-    assert False
+    #assert False
 
 @nottest
 def test_board_init():
@@ -49,5 +49,31 @@ def test_board_init():
     ]
     newboard = board.Board(test_data)
 
-    assert False
+    #assert False
+
+def test_space_valid_moves():
+    tests = [ 
+        [ 
+            ["LEVEL, alpha, 8",
+             "LEVEL, beta, 8",
+             "MOVE, alpha, 1, alpha, 3",
+             "MOVE, alpha, 1, beta, 1",
+             "MOVE, alpha, 1, beta, 3",
+             "PIECE, player1, drone, alpha, 3"],
+             ["SPACE, beta, 1","SPACE, beta, 3"],
+             "occupied space near alpha 1"
+        ]
+    ]
+
+    def _check_valid_moves(testboard, expected, message):
+        newboard = board.Board(testboard)
+        spacetocheck = newboard.GetSpace("alpha", 1)
+        moves = spacetocheck.GetMoves()
+        print "%s: expected -- %s, got -- %s" % (message, expected, [move.__str__() for move in moves])
+        assert expected == [move.__str__() for move in moves]
+
+    for test in tests:
+        yield _check_valid_moves, test[0], test[1], test[2]
     
+def test_space_valid_captures():
+    assert True

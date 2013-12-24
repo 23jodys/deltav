@@ -15,7 +15,9 @@ class Piece:
 
     def GetPlayer(self):
         return self.player
-    
+
+    def GetLocation(self):
+        return self.location
 class Space:
 
     def __init__(self, levelname, spacenum):
@@ -31,23 +33,29 @@ class Space:
         self.captures = []
 
     def __str__(self):
-        toreturn = "START SPACE %s, %s" % (self.levelname, self.spacenum)
+        toreturn = "SPACE, %s, %s" % (self.levelname, self.spacenum)
+        return toreturn
+
+    def DebugRepr(self):
+        """ Returning textual representation of this node"""
+        toreturn = "SPACE %s, %s" % (self.levelname, self.spacenum)
         # if self.piece:
         #     toreturn += " PIECE: %s" % self.piece
         # else:
         #     toreturn += " PIECE: no piece here"    
         for move in self.moves:
-            toreturn += "\n MOVE: into %s %s" % (move["to_level"], move["to_space"])
+            toreturn += "\n MOVE: into %s " % move
 
         for capture in self.captures:
-            toreturn += "\n CAPTURE: capture through %s %s into %s %s" % (
-                capture["capture_level"], capture["capture_space"],
-                capture["to_level"], capture["to_space"])
+            toreturn += "\n CAPTURE: capture through %s into %s" % (
+                capture["capture"], capture["to"])
         if self.piece:
             toreturn += "\n PIECE: player %s, type %s" % (self.piece.GetPlayer(), self.piece.GetType())
 
         return toreturn
 
+        
+    
     def GetLevelName(self):
         #logger.debug("returning '%s'" % self.levelname)
         return self.levelname
@@ -59,26 +67,39 @@ class Space:
     def AddPiece(self, piece):
         logger.debug("Adding player %s type %s to this location" % (piece.GetPlayer(), piece.GetType()))
         self.piece = piece
-    
-    def AddMove(self, movedict):
+
+    def GetPiece(self):
+        return self.piece
+        
+    def AddMove(self, moveto):
         """
         Arguments
-        movedict -- a dictionary with { "from_level": %s, "from_space": %d, "to_level":%s, "to_space":%s }
-        """
-        logger.debug("adding move to %s %s" % 
-                     (movedict["to_level"], movedict["to_space"]))
-        self.moves.append({"to_level": movedict["to_level"],
-                           "to_space": movedict["to_space"]})
+        moveto -- a Space object where this move terminates
 
-    def AddCapture(self, capturedict):
+        """
+        logger.debug("Attempting to add move to %s" % moveto)
+        self.moves.append(moveto)
+
+    def GetMoves(self):
+        """ Get a list of valid moves from this location
+        """
+        #toreturn = [x for x in self.moves if not x.GetPiece()]
+        toreturn = [x for x in self.moves if not x.GetPiece()]
+        logger.debug("returning this list of valid moves %s" % toreturn)
+        return toreturn
+        
+    def AddCapture(self, capture_space, to_space):
         """
         Arguments
-        capturedict -- a dictionary with { "from_level": %s, "from_space": %d, 
-                                           "capture_level": %s, "capture_space": %d,
-                                           "to_level":%s, "to_space":%d }
 
+        capture_space -- Space object that would be captured
+        to_space -- Space object that this capture would end up in
+        
         """
-        self.captures.append(capturedict)
+        self.captures.append({"capture": capture_space,
+                              "to": to_space})
+
+    def GetCaptures(self):
 class Board:
     def __init__(self, filehandle):
         """initializes new board
@@ -116,25 +137,25 @@ class Board:
             # Deal with comments by only using stuff to the left of our comment symble
             usable = line.split("#")
             els = usable[0].split(",")
-            logger.debug("processing line %d: %s" % (linenum, usable[0]))
+            #            logger.debug("processing line %d: %s" % (linenum, usable[0]))
 
             if els[0] == "LEVEL":
-                logger.debug("LEVEL -- storing %s with %s elements" % (els[1].strip(), int(els[2].strip())))
+                #logger.debug("LEVEL -- storing %s with %s elements" % (els[1].strip(), int(els[2].strip())))
                 parsed["levels"][els[1].strip()] = int(els[2].strip())
                 
             elif els[0] == "MOVE":
-                logger.debug("MOVE -- storing from level %s space %s to level %s space %s" %
-                             (els[1].strip(), els[2].strip(), els[3].strip(), els[4].strip()))
+                #logger.debug("MOVE -- storing from level %s space %s to level %s space %s" %
+                #             (els[1].strip(), els[2].strip(), els[3].strip(), els[4].strip()))
                 parsed["move"].append( { "from_level": els[1].strip(),
                                          "from_space": els[2].strip(),
                                          "to_level": els[3].strip(),
                                          "to_space": els[4].strip() } )
                              
             elif els[0] == "CAPTURE":
-                logger.debug("CAPTURE -- storing from space %s %s, capture space %s %s, finish at space %s %s" %
-                             (els[1].strip(), els[2].strip(), 
-                              els[3].strip(), els[4].strip(), 
-                              els[5].strip(), els[6].strip()))
+                #logger.debug("CAPTURE -- storing from space %s %s, capture space %s %s, finish at space %s %s" %
+                #             (els[1].strip(), els[2].strip(), 
+                #              els[3].strip(), els[4].strip(), 
+                #              els[5].strip(), els[6].strip()))
                 parsed["capture"].append( { "from_level": els[1].strip(),
                                             "from_space": els[2].strip(),
                                             "capture_level": els[3].strip(),
@@ -144,17 +165,17 @@ class Board:
 
         
             elif els[0] == "PIECE":
-                logger.debug("PIECE -- storing %s, type %s in location %s %s" % (els[1].strip(), 
-                                                                              els[2].strip(), 
-                                                                              els[3].strip(),
-                                                                              els[4].strip()))
+                #logger.debug("PIECE -- storing %s, type %s in location %s %s" % (els[1].strip(), 
+                                                                              # els[2].strip(), 
+                                                                              # els[3].strip(),
+                                                                              # els[4].strip()))
                 parsed["piece"].append( {"player": els[1].strip(),
                                          "type": els[2].strip(),
                                          "levelname": els[3].strip(),
                                          "spacenum": els[4].strip()} )
                                                                               
-            else:
-                logger.debug("UNKNOWN")
+            # else:
+            #     logger.debug("UNKNOWN")
             linenum += 1
 
         #        logger.debug("parsed structure is %s" % parsed)
@@ -174,23 +195,25 @@ class Board:
             #              (movedict["from_level"], movedict["from_space"],
             #               movedict["to_level"], movedict["to_space"]))
             from_space = self.GetSpace(movedict["from_level"], movedict["from_space"])
-            if from_space:
-                from_space.AddMove(movedict)
+            to_space = self.GetSpace(movedict["to_level"], movedict["to_space"])
+            if from_space and to_space:
+                from_space.AddMove(to_space)
             else:
                 logger.error("WTF: couldn't find %s %s to start with" % (movedict["from_level"],
                                                                         movedict["from_space"]))
 
         # Populate all of the valid captures
         for capturedict in parsed["capture"]:
-            print capturedict
             logger.debug("Trying to add capture from %s %s through %s %s into %s %s" %
                          (capturedict["from_level"], capturedict["from_space"],
                           capturedict["capture_level"], capturedict["capture_space"],
                           capturedict["to_level"], capturedict["to_space"]))
-            form_space = self.GetSpace(capturedict["from_level"], capturedict["from_space"])
-            if from_space:
-                logger.debug("Adding capture to %s" % from_space)
-                from_space.AddCapture(capturedict)
+            from_space = self.GetSpace(capturedict["from_level"], capturedict["from_space"])
+            to_space = self.GetSpace(capturedict["to_level"], capturedict["to_space"])
+            capture_space = self.GetSpace(capturedict["capture_level"], capturedict["capture_space"])
+            if from_space and to_space and capture_space:
+                logger.debug("Adding capture from %s capturing %s into %s" % (from_space, capture_space, to_space))
+                from_space.AddCapture(capture_space, to_space)
             else:
                 logger.error("WTF: couldn't find %s %s to start with" % (capturedict["from_level"],
                                                                          capturedict["from_space"]))
@@ -213,12 +236,12 @@ class Board:
         # Create all of the other pieces, this can only happen after we have created 
         # the levels and spaces and ships for them to exist in 
         for piece in parsed["piece"]:
-
             newlocation = self.GetSpace(piece["levelname"], piece["spacenum"])
             if newlocation:
                 newpiece = Piece(piece["type"], piece["player"], newlocation)
-                logger.debug("Added piece %s" % newpiece)
+                newlocation.AddPiece(newpiece)
                 self.board["pieces"].append(newpiece)
+                logger.debug("Added piece %s" % newpiece)
             else:
                 logger.error("unable to add piece type %s owned by %s at %s %s" %
                              (piece["type"], piece["player"],
@@ -227,6 +250,7 @@ class Board:
         for space in self.board["spaces"]:
             logger.debug(space)
 
+            
 
     def GetSpace(self, levelname, spacenum):
         """
@@ -239,11 +263,11 @@ class Board:
         Returns:
         a Space object
         """
-
+        #logger.debug("looking for %s %s" % (levelname, spacenum))
         for space in self.board["spaces"]:
-            logger.debug("looking at space %s %s" % (space.GetLevelName(), space.GetSpaceNum()))
+            #logger.debug("looking at space %s %s" % (space.GetLevelName(), space.GetSpaceNum()))
             if (space.GetLevelName() == levelname) and (space.GetSpaceNum() == int(spacenum)):
-                logger.debug("returning %s" % space)
+                #logger.debug("returning %s" % space)
                 return space
                     
         else:

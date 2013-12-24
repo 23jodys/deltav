@@ -66,4 +66,11 @@ CAPTURE, alpha, 1, beta, 1, gamma, 2
 CAPTURE, alpha, 1, beta, 3, gamma, 5
 CAPTURE, alpha, 2, beta, 1, gamma, 1
 CAPTURE, alpha, 2, beta, 4, gamma, 6
-
+PIECE, player1, command, outerspace, 1
+PIECE, player1, supply, outerspace, 1
+PIECE, player1, drone, commandbay, 1
+PIECE, player1, drone, commandbay, 2
+PIECE, player1, drone, commandbay, 3
+PIECE, player1, drone, supplybay, 1
+PIECE, player1, drone, supplybay, 2
+PIECE, player1, drone, supplybay, 3
