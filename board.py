@@ -1,5 +1,6 @@
 import logging
 logger = logging.getLogger(__name__)
+
 class Piece:
     def __init__(self, shiptype, player, startinglocation):
         self.shiptype = shiptype
@@ -18,6 +19,7 @@ class Piece:
 
     def GetLocation(self):
         return self.location
+
 class Space:
 
     def __init__(self, levelname, spacenum):
@@ -65,7 +67,7 @@ class Space:
         return self.spacenum
 
     def AddPiece(self, piece):
-        logger.debug("Adding player %s type %s to this location" % (piece.GetPlayer(), piece.GetType()))
+        #logger.debug("Adding player %s type %s to this location" % (piece.GetPlayer(), piece.GetType()))
         self.piece = piece
 
     def GetPiece(self):
@@ -77,16 +79,17 @@ class Space:
         moveto -- a Space object where this move terminates
 
         """
-        logger.debug("Attempting to add move to %s" % moveto)
+        #logger.debug("Attempting to add move to %s" % moveto)
         self.moves.append(moveto)
 
     def GetMoves(self):
-        """ Get a list of valid moves from this location
+        """ Get a list of Space objects that are valid moves from this location
         """
         #toreturn = [x for x in self.moves if not x.GetPiece()]
-        toreturn = [x for x in self.moves if not x.GetPiece()]
-        logger.debug("returning this list of valid moves %s" % toreturn)
-        return toreturn
+        #toreturn = [x for x in self.moves if not x.GetPiece()]
+        #logger.debug("returning this list of valid moves %s" % toreturn)
+        
+        return self.moves
         
     def AddCapture(self, capture_space, to_space):
         """
@@ -98,8 +101,14 @@ class Space:
         """
         self.captures.append({"capture": capture_space,
                               "to": to_space})
-
     def GetCaptures(self):
+        """
+        Return a list of dictionaries containing space objects
+        { "to": Space,
+           "capture": Space()}
+        """
+        return self.captures
+
 class Board:
     def __init__(self, filehandle):
         """initializes new board
@@ -110,8 +119,8 @@ class Board:
         # anywhere on a line indicates that that character and all others 
         until the EOL are not to be read and discarded
 
-        LEVEL, ${level name}, ${count}
-        LEVEL, alpha, 8
+        LEVEL, ${level name}, ${count}, Owner
+        LEVEL, alpha, 8, none
 
         MOVE, from level name, from space, to level name, to space
         # Example
@@ -125,6 +134,9 @@ class Board:
                        "pieces": [],
                        "players": {}}
          
+        self.turnnum = 1
+        self.currentplayer = "player1"
+
         parsed = { "levels": {},
                    "move": [],
                    "capture": [],
@@ -144,24 +156,30 @@ class Board:
                 parsed["levels"][els[1].strip()] = int(els[2].strip())
                 
             elif els[0] == "MOVE":
-                #logger.debug("MOVE -- storing from level %s space %s to level %s space %s" %
-                #             (els[1].strip(), els[2].strip(), els[3].strip(), els[4].strip()))
-                parsed["move"].append( { "from_level": els[1].strip(),
-                                         "from_space": els[2].strip(),
-                                         "to_level": els[3].strip(),
-                                         "to_space": els[4].strip() } )
-                             
+                if len(els) == 5:
+                    # logger.debug("MOVE -- storing from level %s space %s to level %s space %s" %
+                    #             (els[1].strip(), els[2].strip(), els[3].strip(), els[4].strip()))
+                    parsed["move"].append( { "from_level": els[1].strip(),
+                                             "from_space": els[2].strip(),
+                                             "to_level": els[3].strip(),
+                                             "to_space": els[4].strip() } )
+                else:
+                    logger.error("MOVE, but we do not have 5 elements")
+         
             elif els[0] == "CAPTURE":
-                #logger.debug("CAPTURE -- storing from space %s %s, capture space %s %s, finish at space %s %s" %
-                #             (els[1].strip(), els[2].strip(), 
-                #              els[3].strip(), els[4].strip(), 
-                #              els[5].strip(), els[6].strip()))
-                parsed["capture"].append( { "from_level": els[1].strip(),
-                                            "from_space": els[2].strip(),
-                                            "capture_level": els[3].strip(),
-                                            "capture_space": els[4].strip(),
-                                            "to_level": els[5].strip(),
-                                            "to_space": els[6].strip() } )
+                if len(els) != 7:
+                    logger.error("CAPTURE, but we do not have 7 elements")
+                else:
+#                     logger.debug("CAPTURE -- storing from space %s %s, capture space %s %s, finish at space %s %s" %
+#                             (els[1].strip(), els[2].strip(), 
+#                              els[3].strip(), els[4].strip(), 
+#                              els[5].strip(), els[6].strip()))
+                    parsed["capture"].append( { "from_level": els[1].strip(),
+                                                "from_space": els[2].strip(),
+                                                "capture_level": els[3].strip(),
+                                                "capture_space": els[4].strip(),
+                                                "to_level": els[5].strip(),
+                                                "to_space": els[6].strip() } )
 
         
             elif els[0] == "PIECE":
@@ -182,7 +200,7 @@ class Board:
 
         # Create all of the spaces
         for (levelname, levelcount) in parsed["levels"].iteritems():
-            #print("levelname %s, levelcount = %s" % (levelname, levelcount))
+            print("levelname %s, levelcount = %s" % (levelname, levelcount))
             self.board["levels"][levelname] = {}
             for i in range(1, levelcount + 1):
                 newspace = Space(levelname, i)
@@ -204,15 +222,15 @@ class Board:
 
         # Populate all of the valid captures
         for capturedict in parsed["capture"]:
-            logger.debug("Trying to add capture from %s %s through %s %s into %s %s" %
-                         (capturedict["from_level"], capturedict["from_space"],
-                          capturedict["capture_level"], capturedict["capture_space"],
-                          capturedict["to_level"], capturedict["to_space"]))
+            # logger.debug("Trying to add capture from %s %s through %s %s into %s %s" %
+#                          (capturedict["from_level"], capturedict["from_space"],
+#                           capturedict["capture_level"], capturedict["capture_space"],
+#                           capturedict["to_level"], capturedict["to_space"]))
             from_space = self.GetSpace(capturedict["from_level"], capturedict["from_space"])
             to_space = self.GetSpace(capturedict["to_level"], capturedict["to_space"])
             capture_space = self.GetSpace(capturedict["capture_level"], capturedict["capture_space"])
             if from_space and to_space and capture_space:
-                logger.debug("Adding capture from %s capturing %s into %s" % (from_space, capture_space, to_space))
+                #logger.debug("Adding capture from %s capturing %s into %s" % (from_space, capture_space, to_space))
                 from_space.AddCapture(capture_space, to_space)
             else:
                 logger.error("WTF: couldn't find %s %s to start with" % (capturedict["from_level"],
@@ -241,7 +259,7 @@ class Board:
                 newpiece = Piece(piece["type"], piece["player"], newlocation)
                 newlocation.AddPiece(newpiece)
                 self.board["pieces"].append(newpiece)
-                logger.debug("Added piece %s" % newpiece)
+#                 logger.debug("Added piece %s" % newpiece)
             else:
                 logger.error("unable to add piece type %s owned by %s at %s %s" %
                              (piece["type"], piece["player"],
@@ -250,8 +268,108 @@ class Board:
         for space in self.board["spaces"]:
             logger.debug(space)
 
-            
+    def PrintSpace(self, levelname, spacenum):
+        """
+        return a single character for this space:
 
+        @ = player1
+        # = player2
+        * = empty
+        """
+
+        piece = self.CheckSpace(levelname, spacenum)
+        if piece:
+            if piece.GetPlayer() == "player1":
+                char = "@"
+            elif piece.GetPlayer() == "player2":
+                char = "#"
+            else:
+                char = "!" # WTF? How did we get here
+        else:
+            char = "*"
+
+        return char
+
+    def PrintBoard(self):
+        printed_board = ""
+        alt = False # if alt is True, then indent one empty space
+        for levelname in self.board["levels"].keys():
+            printed_board += " %s\n" % levelname
+
+            if levelname == "alpha" or levelname == "gamma":
+                alt = True
+            else:
+                alt = False
+
+            printed_board += "+----+\n"
+            for pair in [ (7,8), (5,6), (3,4), (1,2) ]:
+                if alt:
+                    printed_board += "| %s %s|\n" % (self.PrintSpace(levelname, pair[0]),
+                                                     self.PrintSpace(levelname, pair[1]))
+                    alt = False
+                else:
+                    printed_board += "|%s %s |\n" % (self.PrintSpace(levelname, pair[0]),
+                                                     self.PrintSpace(levelname, pair[1]))
+                    alt = True
+                #print "| %s %s|" % self.PrintSpace(levelname, spacenum)
+
+            printed_board += "+----+\n"
+
+        return printed_board
+
+    def GetValidCaptures(self, playername, location):            
+        """ Assume that there is a piece owned by playername at this location
+            what captures are possible?
+
+        """
+        toreturn = []
+        for capture in location.GetCaptures():
+            logger.debug("GetValidCaptures(%s, '%s'): looking at capture %s, to %s" %
+                         (playername, location, capture["capture"], capture["to"]))
+
+            # Check to see if there is any piece in the capture terminus
+            if not capture["to"].GetPiece():
+                # Check to see if there is another player's piece in the capture space
+                capturepiece = capture["capture"].GetPiece()
+                if capturepiece.GetPlayer() != playername:
+                    toreturn.append({"from": location,
+                                     "to": capture["to"],
+                                     "capture": capture["capture"]})
+
+            else:
+                logger.debug("piece located at %s, capture move not valid" % capture["to"])
+        return toreturn
+    
+    def GetValidMoves(self, location):
+        """ Return a list of valid moves"""
+        toreturn = []
+
+        # Additionally, any drone in a command/supply bay may move to any location
+        # that the command or supply ship could move to.
+        (player, levelname) = location.GetLevelName().split("_")
+        if 
+        piece = location.GetPiece()
+        if piece and (piece.GetType() == "command" or piece.GetType() == "supply"):
+            moves = 
+
+        for move in location.GetMoves():
+            if not move.GetPiece():
+                toreturn.append(move)
+
+        return toreturn
+
+    def CheckSpace(self, levelname, spacenum):
+        """
+        Return reference to the piece occupying this space, if any
+        
+        """
+
+        space = self.GetSpace(levelname, spacenum)
+        if space:
+            return space.GetPiece()
+        else:
+            return False
+        
     def GetSpace(self, levelname, spacenum):
         """
         Return a reference to a given space
@@ -273,3 +391,65 @@ class Board:
         else:
             return False
 
+    def ExecuteTurn(self, move):
+        """
+        Takes a textual description of a move, parses, then executes if possible, 
+        
+        player1, player1_supply, 1, MOVE, alpha, 1
+        player2, player2_supply, 1, MOVE, beta, 2
+        player1, alpha, 1, CAPTURE, gamma, 2
+
+        Returns -- "SUCCESS" if sucessful
+
+        otherwise returns "ERROR, text error message"
+        """
+
+        (player, startname, startnum, type, toname, tonum) = move.split(",")
+
+        error = False
+        
+        # Check that this player can make a move
+        if player != self.currentplayer:
+            errormsg = "Not the current player"
+            error = True
+
+        # Check that piece exists and player owns it
+        piece = self.CheckSpace(startname, startnum)
+        print piece
+        if not piece or piece.GetPlayer() != player:
+            errormsg = "You cannot move that piece"
+            error = True
+
+        if error:
+            return errormsg
+
+        if type == "MOVE":
+            # If this is a move, verify that it is valid, then do it
+            errormsg = "SUCCESS"
+        elif type == "CAPTURE":
+            # If this is a capture, verify, then do it
+            errormsg = "SUCCESS"
+        else:
+            # Otherwise return an error
+            errormsg = "I don't know what type of turn %s is" % type
+
+        return errormsg
+
+
+        
+    #def CheckMove(self, piece, to):
+
+    def CheckCapture(self, piece, capture, to):
+        test = { "from": piece.GetLocation(),
+                 "capture": capture,
+                 "to": to }
+        for i in self.GetValidCaptures(piece.GetPlayer(), piece.GetLocation()):
+            if test == i:
+                logger.debug("CheckCapture(%s, %s, %s): this is a valid capture" % (piece, capture, to))
+                return True
+            
+        else:
+            logger.debug("CheckCapture(%s, %s, %s): this is a valid capture" % (piece, capture, to))
+            return False
+    
+        

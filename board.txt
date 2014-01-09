@@ -1,16 +1,22 @@
+# Levels of the board
 LEVEL, alpha, 8
 LEVEL, beta, 8
 LEVEL, gamma, 8
 LEVEL, delta, 8
-LEVEL, outerspace, 1
-LEVEL, commandbay, 3
-LEVEL, supplybay, 3
-MOVE, commandbay, 1, outerspace, 1
-MOVE, commandbay, 2, outerspace, 1
-MOVE, commandbay, 3, outerspace, 1
-MOVE, supplybay, 1, outerspace, 1
-MOVE, supplybay, 2, outerspace, 1
-MOVE, supplybay, 3, outerspace, 1
+# MOVE, player1_commandbay, 1, outerspace, 1
+# MOVE, player1_commandbay, 2, outerspace, 1
+# MOVE, player1_commandbay, 3, outerspace, 1
+# MOVE, player1_supplybay, 1, outerspace, 1
+# MOVE, player1_supplybay, 2, outerspace, 1
+# MOVE, player1_supplybay, 3, outerspace, 1
+# MOVE, player2_commandbay, 1, outerspace, 1
+# MOVE, player2_commandbay, 2, outerspace, 1
+# MOVE, player2_commandbay, 3, outerspace, 1
+# MOVE, player2_supplybay, 1, outerspace, 1
+# MOVE, player2_supplybay, 2, outerspace, 1
+# MOVE, player2_supplybay, 3, outerspace, 1
+
+# All valid moves
 MOVE, alpha, 1, alpha, 3
 MOVE, alpha, 1, beta, 1
 MOVE, alpha, 1, beta, 3
@@ -55,22 +61,336 @@ MOVE, alpha, 7, beta, 8
 MOVE, alpha, 8, alpha, 5
 MOVE, alpha, 8, beta, 6
 MOVE, alpha, 8, beta, 8
-MOVE, outerspace, 1, alpha, 1
-MOVE, outerspace, 1, alpha, 2
-MOVE, outerspace, 1, alpha, 4
-MOVE, outerspace, 1, alpha, 6
-MOVE, outerspace, 1, alpha, 7
-MOVE, outerspace, 1, alpha, 8
-CAPTURE, alpha, 1, alpha, 3, alpha, 5
+MOVE, beta, 1, beta, 3
+MOVE, beta, 1, beta, 4
+MOVE, beta, 1, alpha, 1
+MOVE, beta, 1, alpha, 2
+MOVE, beta, 1, alpha, 3
+MOVE, beta, 1, gamma, 1
+MOVE, beta, 1, gamma, 2
+MOVE, beta, 1, gamma, 3
+MOVE, beta, 2, beta, 4
+MOVE, beta, 2, gamma, 2
+MOVE, beta, 2, gamma, 4
+MOVE, beta, 2, alpha, 2
+MOVE, beta, 2, alpha, 4
+MOVE, beta, 3, beta, 5
+MOVE, beta, 3, beta, 1
+MOVE, beta, 3, alpha, 5
+MOVE, beta, 3, alpha, 3
+MOVE, beta, 3, alpha, 1
+MOVE, beta, 3, gamma, 5
+MOVE, beta, 3, gamma, 3
+MOVE, beta, 3, gamma, 1
+MOVE, beta, 4, beta, 1
+MOVE, beta, 4, beta, 2
+MOVE, beta, 4, beta, 5
+MOVE, beta, 4, beta, 6
+MOVE, beta, 4, alpha, 2
+MOVE, beta, 4, alpha, 3
+MOVE, beta, 4, alpha, 4
+MOVE, beta, 4, alpha, 5
+MOVE, beta, 4, gamma, 2
+MOVE, beta, 4, gamma, 3
+MOVE, beta, 4, gamma, 4
+MOVE, beta, 4, gamma, 5
+MOVE, beta, 5, beta, 3
+MOVE, beta, 5, beta, 4
+MOVE, beta, 5, beta, 7
+MOVE, beta, 5, beta, 8
+MOVE, beta, 5, gamma, 3
+MOVE, beta, 5, gamma, 5
+MOVE, beta, 5, gamma, 6
+MOVE, beta, 5, gamma, 7
+MOVE, beta, 5, alpha, 3
+MOVE, beta, 5, alpha, 5
+MOVE, beta, 5, alpha, 6
+MOVE, beta, 5, alpha, 7
+MOVE, beta, 6, alpha, 4
+MOVE, beta, 6, alpha, 6
+MOVE, beta, 6, alpha, 8
+MOVE, beta, 6, beta, 4
+MOVE, beta, 6, beta, 8
+MOVE, beta, 6, gamma, 4
+MOVE, beta, 6, gamma, 6
+MOVE, beta, 6, gamma, 8
+MOVE, beta, 7, alpha, 5
+MOVE, beta, 7, alpha, 7
+MOVE, beta, 7, beta, 7
+MOVE, beta, 7, gamma, 5
+MOVE, beta, 7, gamma, 7
+MOVE, beta, 8, alpha, 6
+MOVE, beta, 8, alpha, 7
+MOVE, beta, 8, alpha, 8
+MOVE, beta, 8, beta, 5
+MOVE, beta, 8, beta, 6
+MOVE, beta, 8, gamma, 6
+MOVE, beta, 8, gamma, 7
+MOVE, beta, 8, gamma, 7
+MOVE, gamma, 1, beta, 1 
+MOVE, gamma, 1, beta, 3
+MOVE, gamma, 1, gamma, 3
+MOVE, gamma, 1, delta, 1
+MOVE, gamma, 1, delta, 3
+MOVE, gamma, 2, beta, 1
+MOVE, gamma, 2, beta, 2
+MOVE, gamma, 2, beta, 4
+MOVE, gamma, 2, gamma, 3
+MOVE, gamma, 2, gamma, 4
+MOVE, gamma, 2, delta, 1
+MOVE, gamma, 2, delta, 2
+MOVE, gamma, 2, delta, 4
+MOVE, gamma, 3, gamma, 1
+MOVE, gamma, 3, gamma, 2
+MOVE, gamma, 3, gamma, 5
+MOVE, gamma, 3, gamma, 6
+MOVE, gamma, 3, delta, 1
+MOVE, gamma, 3, delta, 3
+MOVE, gamma, 3, delta, 4
+MOVE, gamma, 3, delta, 5
+MOVE, gamma, 3, beta, 1
+MOVE, gamma, 3, beta, 3
+MOVE, gamma, 3, beta, 4
+MOVE, gamma, 3, beta, 5
+MOVE, gamma, 4, beta, 2
+MOVE, gamma, 4, beta, 4
+MOVE, gamma, 4, beta, 6
+MOVE, gamma, 4, gamma, 3
+MOVE, gamma, 4, gamma, 6
+MOVE, gamma, 4, delta, 2
+MOVE, gamma, 4, delta, 4
+MOVE, gamma, 4, delta, 6
+MOVE, gamma, 5, beta, 3
+MOVE, gamma, 5, beta, 5
+MOVE, gamma, 5, beta, 7
+MOVE, gamma, 5, gamma, 3
+MOVE, gamma, 5, gamma, 7
+MOVE, gamma, 5, delta, 3
+MOVE, gamma, 5, delta, 5
+MOVE, gamma, 5, delta, 7
+MOVE, gamma, 6, beta, 4
+MOVE, gamma, 6, beta, 5
+MOVE, gamma, 6, beta, 6
+MOVE, gamma, 6, beta, 8
+MOVE, gamma, 6, gamma, 3
+MOVE, gamma, 6, gamma, 4
+MOVE, gamma, 6, gamma, 7
+MOVE, gamma, 6, gamma, 8
+MOVE, gamma, 6, delta, 4
+MOVE, gamma, 6, delta, 5
+MOVE, gamma, 6, delta, 6
+MOVE, gamma, 6, delta, 8
+MOVE, gamma, 7, beta, 5
+MOVE, gamma, 7, beta, 7
+MOVE, gamma, 7, beta, 8
+MOVE, gamma, 7, gamma, 5
+MOVE, gamma, 7, gamma, 6
+MOVE, gamma, 7, delta, 5
+MOVE, gamma, 7, delta, 7
+MOVE, gamma, 7, delta, 8
+MOVE, gamma, 8, beta, 6
+MOVE, gamma, 8, beta, 8
+MOVE, gamma, 8, gamma, 6
+MOVE, gamma, 8, delta, 6
+MOVE, gamma, 8, delta, 8
+MOVE, delta, 1, gamma, 1
+MOVE, delta, 1, gamma, 2
+MOVE, delta, 1, gamma, 3
+MOVE, delta, 1, delta, 3
+MOVE, delta, 1, delta, 4
+MOVE, delta, 2, gamma, 3
+MOVE, delta, 2, gamma, 4
+MOVE, delta, 2, delta, 4
+MOVE, delta, 3, gamma, 1
+MOVE, delta, 3, gamma, 3
+MOVE, delta, 3, gamma, 5
+MOVE, delta, 3, delta, 1
+MOVE, delta, 3, delta, 5
+MOVE, delta, 4, gamma, 2
+MOVE, delta, 4, gamma, 3
+MOVE, delta, 4, gamma, 4
+MOVE, delta, 4, gamma, 6
+MOVE, delta, 4, delta, 1
+MOVE, delta, 4, delta, 2
+MOVE, delta, 4, delta, 5
+MOVE, delta, 4, delta, 6
+MOVE, delta, 5, gamma, 3
+MOVE, delta, 5, gamma, 5
+MOVE, delta, 5, gamma, 6
+MOVE, delta, 5, gamma, 7
+MOVE, delta, 5, delta, 3
+MOVE, delta, 5, delta, 4
+MOVE, delta, 5, delta, 7
+MOVE, delta, 5, delta, 8
+MOVE, delta, 6, gamma, 4
+MOVE, delta, 6, gamma, 6
+MOVE, delta, 6, gamma, 8
+MOVE, delta, 6, delta, 4
+MOVE, delta, 6, delta, 8
+MOVE, delta, 7, gamma, 5
+MOVE, delta, 7, gamma, 7
+MOVE, delta, 7, delta, 5
+MOVE, delta, 8, gamma, 6
+MOVE, delta, 8, gamma, 7
+MOVE, delta, 8, gamma, 8
+MOVE, delta, 8, delta, 5
+MOVE, delta, 8, delta, 6
+
+# All the valide moves from player1's outerspace
+MOVE, player1_outerspace, 1, alpha, 1
+MOVE, player1_outerspace, 1, alpha, 2
+MOVE, player1_outerspace, 1, alpha, 3
+MOVE, player1_outerspace, 1, alpha, 4
+MOVE, player1_outerspace, 1, alpha, 5
+MOVE, player1_outerspace, 1, alpha, 6
+MOVE, player1_outerspace, 1, alpha, 7
+MOVE, player1_outerspace, 1, alpha, 8
+
+MOVE, player1_outerspace, 1, beta, 1
+MOVE, player1_outerspace, 1, beta, 2
+MOVE, player1_outerspace, 1, beta, 4
+MOVE, player1_outerspace, 1, beta, 6
+MOVE, player1_outerspace, 1, beta, 7
+MOVE, player1_outerspace, 1, beta, 8
+
+MOVE, player1_outerspace, 1, gamma, 1
+MOVE, player1_outerspace, 1, gamma, 2
+MOVE, player1_outerspace, 1, gamma, 4
+MOVE, player1_outerspace, 1, gamma, 6
+MOVE, player1_outerspace, 1, gamma, 7
+MOVE, player1_outerspace, 1, gamma, 8
+
+MOVE, player1_outerspace, 1, delta, 1
+MOVE, player1_outerspace, 1, delta, 2
+MOVE, player1_outerspace, 1, delta, 3
+MOVE, player1_outerspace, 1, delta, 4
+MOVE, player1_outerspace, 1, delta, 5
+MOVE, player1_outerspace, 1, delta, 6
+MOVE, player1_outerspace, 1, delta, 7
+MOVE, player1_outerspace, 1, delta, 8
+
+
+CAPTURE, alpha, 1, alpha, 3, alpha, 6
 CAPTURE, alpha, 1, beta, 1, gamma, 2
-CAPTURE, alpha, 1, beta, 3, gamma, 5
+CAPTURE, alpha, 1, beta, 3, gamma, 5 
+CAPTURE, alpha, 2, alpha, 3, alpha, 5
 CAPTURE, alpha, 2, beta, 1, gamma, 1
 CAPTURE, alpha, 2, beta, 4, gamma, 6
-PIECE, player1, command, outerspace, 1
-PIECE, player1, supply, outerspace, 1
-PIECE, player1, drone, commandbay, 1
-PIECE, player1, drone, commandbay, 2
-PIECE, player1, drone, commandbay, 3
-PIECE, player1, drone, supplybay, 1
-PIECE, player1, drone, supplybay, 2
-PIECE, player1, drone, supplybay, 3
+CAPTURE, alpha, 3, alpha, 6, alpha, 8
+CAPTURE, alpha, 3, beta, 4, gamma, 4
+CAPTURE, alpha, 3, beta, 5, gamma, 7
+CAPTURE, alpha, 4, alpha, 6, alpha, 7
+CAPTURE, alpha, 4, beta, 4, gamma, 3
+CAPTURE, alpha, 4, beta, 6, gamma, 8
+CAPTURE, alpha, 5, alpha, 3, alpha, 2
+CAPTURE, alpha, 5, beta, 3, gamma, 1
+CAPTURE, alpha, 5, beta, 5, gamma, 6
+CAPTURE, alpha, 6, alpha, 3, alpha, 1
+CAPTURE, alpha, 6, beta, 5, gamma, 5
+CAPTURE, alpha, 6, beta, 4, gamma, 2
+CAPTURE, alpha, 7, alpha, 6, alpha, 4
+CAPTURE, alpha, 7, beta, 8, gamma, 8
+CAPTURE, alpha, 7, beta, 5, gamma, 3
+CAPTURE, alpha, 8, beta, 6, gamma, 4
+CAPTURE, alpha, 8, beta, 8, gamma, 7
+CAPTURE, alpha, 8, alpha, 6, alpha, 3
+CAPTURE, beta, 1, beta, 4, beta, 6
+CAPTURE, beta, 1, gamma, 2, delta, 2
+CAPTURE, beta, 1, gamma, 3, delta, 5
+CAPTURE, beta, 2, beta, 4, beta, 5
+CAPTURE, beta, 2, gamma, 2, delta, 1
+CAPTURE, beta, 2, gamma, 4, delta, 6
+CAPTURE, beta, 3, beta, 5, beta, 8
+CAPTURE, beta, 3, gamma, 3, delta, 4
+CAPTURE, beta, 3, gamma, 5, delta, 7
+CAPTURE, beta, 4, beta, 5, beta, 7
+CAPTURE, beta, 4, gamma, 3, delta, 3
+CAPTURE, beta, 4, gamma, 6, delta, 8
+CAPTURE, beta, 5, beta, 4, beta, 2
+CAPTURE, beta, 5, gamma, 3, delta, 1
+CAPTURE, beta, 5, gamma, 6, delta, 6
+CAPTURE, beta, 6, beta, 4, beta, 1
+CAPTURE, beta, 6, gamma, 6, delta, 5
+CAPTURE, beta, 6, gamma, 4, delta, 2
+CAPTURE, beta, 7, beta, 5, beta, 4
+CAPTURE, beta, 7, gamma, 5, delta, 3
+CAPTURE, beta, 7, gamma, 7, delta, 8
+CAPTURE, beta, 8, beta, 5, beta, 3
+CAPTURE, beta, 8, gamma, 7, delta, 7
+CAPTURE, beta, 8, gamma, 6, delta, 4
+CAPTURE, gamma, 1, gamma, 3, gamma, 6
+CAPTURE, gamma, 1, beta, 1, alpha, 2
+CAPTURE, gamma, 1, beta, 3, alpha, 5
+CAPTURE, gamma, 2, gamma, 3, gamma, 5
+CAPTURE, gamma, 2, beta, 1, alpha, 1
+CAPTURE, gamma, 2, beta, 4, alpha, 6
+CAPTURE, gamma, 3, gamma, 6, gamma, 8
+CAPTURE, gamma, 3, beta, 4, alpha, 4
+CAPTURE, gamma, 3, beta, 5, alpha, 7
+CAPTURE, gamma, 4, gamma, 6, gamma, 7
+CAPTURE, gamma, 4, beta, 6, alpha, 8
+CAPTURE, gamma, 4, beta, 4, alpha, 3
+CAPTURE, gamma, 5, gamma, 3, gamma, 2
+CAPTURE, gamma, 5, beta, 3, alpha, 1
+CAPTURE, gamma, 5, beta, 5, alpha, 6
+CAPTURE, gamma, 6, gamma, 3, gamma, 1
+CAPTURE, gamma, 6, beta, 4, alpha, 2
+CAPTURE, gamma, 6, beta, 5, alpha, 5
+CAPTURE, gamma, 7, gamma, 6, gamma, 4
+CAPTURE, gamma, 7, beta, 5, alpha, 3
+CAPTURE, gamma, 7, beta, 8, alpha, 8
+CAPTURE, gamma, 8, gamma, 6, gamma, 1
+CAPTURE, gamma, 8, beta, 6, alpha, 4
+CAPTURE, gamma, 8, beta, 8, alpha, 7
+CAPTURE, delta, 1, delta, 4, delta, 6
+CAPTURE, delta, 1, gamma, 2, beta, 2
+CAPTURE, delta, 1, gamma, 3, beta, 5
+CAPTURE, delta, 2, delta, 4, delta, 5
+CAPTURE, delta, 2, gamma, 2, beta, 1
+CAPTURE, delta, 2, gamma, 4, delta, 2
+CAPTURE, delta, 3, delta, 5, delta, 8
+CAPTURE, delta, 3, gamma, 3, beta, 4
+CAPTURE, delta, 3, gamma, 5, beta, 7
+CAPTURE, delta, 4, delta, 5, delta, 7
+CAPTURE, delta, 4, gamma, 3, beta, 3
+CAPTURE, delta, 4, gamma, 6, beta, 8
+CAPTURE, delta, 5, delta, 4, delta, 2
+CAPTURE, delta, 5, gamma, 3, beta, 1
+CAPTURE, delta, 5, gamma, 6, beta, 6
+CAPTURE, delta, 6, delta, 4, delta, 1
+CAPTURE, delta, 6, gamma, 4, beta, 2
+CAPTURE, delta, 6, gamma, 6, beta, 5
+CAPTURE, delta, 7, delta, 5, delta, 4
+CAPTURE, delta, 7, gamma, 5, beta, 3
+CAPTURE, delta, 7, gamma, 7, beta, 8
+CAPTURE, delta, 8, delta, 5, delta, 3
+CAPTURE, delta, 8, gamma, 6, beta, 4
+CAPTURE, delta, 8, gamma, 7, beta, 7
+
+# Starting locations for player 1
+LEVEL, player1_outerspace, 2
+LEVEL, player1_commandbay, 3
+LEVEL, player1_supplybay, 3
+
+PIECE, player1, command, player1_outerspace, 1
+PIECE, player1, supply, player1_outerspace, 2
+PIECE, player1, drone, player1_commandbay, 1
+PIECE, player1, drone, player1_commandbay, 2
+PIECE, player1, drone, player1_commandbay, 3
+PIECE, player1, drone, player1_supplybay, 1
+PIECE, player1, drone, player1_supplybay, 2
+PIECE, player1, drone, player1_supplybay, 3
+
+# Starting locations for player 2
+LEVEL, player2_outerspace, 2
+LEVEL, player2_commandbay, 3
+LEVEL, player2_supplybay, 3
+
+PIECE, player2, command, player2_outerspace, 1
+PIECE, player2, command, player2_outerspace, 1
+PIECE, player2, drone, player2_commandbay, 1
+PIECE, player2, drone, player2_commandbay, 2
+PIECE, player2, drone, player2_commandbay, 3
+PIECE, player2, drone, player2_supplybay, 1
+PIECE, player2, drone, player2_supplybay, 2
+PIECE, player2, drone, player2_supplybay, 3
